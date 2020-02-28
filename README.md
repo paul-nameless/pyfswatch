@@ -22,6 +22,7 @@ monitor.add_path('/tmp/test/')
 
 def callback(path, evt_time, flags, flags_num, event_num):
     print(path.decode())
+
 monitor.set_callback(callback)
 
 monitor.start()
