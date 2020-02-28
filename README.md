@@ -1,6 +1,7 @@
 # Python fswatch
 
 Cross-platform filesystem event monitor for Python.
+
 This is wrapper for the [libfswatch](https://github.com/emcrisostomo/fswatch/)
 
 
@@ -29,6 +30,7 @@ monitor.start()
 ```
 
 Low level functions can be accessed via `libfswatch` module.
+
 It is implemented one to one with this [header file](https://github.com/emcrisostomo/fswatch/blob/master/libfswatch/src/libfswatch/c/libfswatch.h)
 
 ```python
