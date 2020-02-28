@@ -1,6 +1,7 @@
 # Python fswatch
 
-Python wrapper for the [libfswatch](https://github.com/emcrisostomo/fswatch/)
+Cross-platform filesystem event monitor for Python.
+This is wrapper for the [libfswatch](https://github.com/emcrisostomo/fswatch/)
 
 
 ## Install
