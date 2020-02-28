@@ -2,8 +2,12 @@ import ctypes
 import ctypes.util
 
 
-dll = ctypes.util.find_library('libfswatch')
+dll = ctypes.util.find_library("libfswatch")
 lib = ctypes.CDLL(dll)
+
+
+fsw_init_library = lib.fsw_init_library
+
 
 fsw_init_session = lib.fsw_init_session
 fsw_init_session.restype = ctypes.c_void_p
@@ -24,8 +28,7 @@ class fsw_cevent(ctypes.Structure):
 
 
 cevent_callback = ctypes.CFUNCTYPE(
-    None, ctypes.POINTER(fsw_cevent), ctypes.c_uint
-)
+    None, ctypes.POINTER(fsw_cevent), ctypes.c_uint)
 
 fsw_set_callback = lib.fsw_set_callback
 fsw_set_callback.restype = ctypes.c_int
@@ -65,38 +68,33 @@ fsw_is_verbose = _not_implemented
 fsw_set_verbose = _not_implemented
 
 
-def callback(events, event_num):
-    event = events[0]
-    print(event.path.decode())
-
-
 def main():
 
     from threading import Thread
     import signal
 
-    assert lib.fsw_init_library() == 0
+    def _callback(events, event_num):
+        event = events[0]
+        print(event.path.decode())
+
+    assert fsw_init_library() == 0
     handle = fsw_init_session(0)
+    assert fsw_add_path(handle, b"/tmp/test/") == 0
+    _callback = cevent_callback(_callback)
+    assert fsw_set_callback(handle, _callback) == 0
+    # fsw_start_monitor(handle)
+    thread = Thread(target=fsw_start_monitor, args=(handle,), daemon=True)
 
     def handler(signum, frame):
         if fsw_is_running(handle):
-            print('Stopping', fsw_stop_monitor(handle))
+            fsw_stop_monitor(handle)
+        exit(0)
 
     signal.signal(signal.SIGINT, handler)
 
-    assert fsw_add_path(handle, ctypes.c_char_p(b'/tmp/test/')) == 0
-
-    _callback = cevent_callback(callback)
-    assert fsw_set_callback(handle, _callback) == 0
-
-    thread = Thread(target=fsw_start_monitor, args=(handle,))
     thread.start()
-    print('Started')
-    print('Stopping')
-    print(fsw_stop_monitor(handle))
-    print('Waiting...')
     thread.join()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
