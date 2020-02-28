@@ -1,6 +1,6 @@
 from threading import Thread
 import signal
-import libfswatch
+from fswatch import libfswatch
 
 
 class Monitor:
