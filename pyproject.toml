@@ -1,0 +1,14 @@
+[tool.flit.metadata]
+module = "fswatch"
+description-file = "README.md"
+author = "Paul Nameless"
+author-email = "klym.paul@gmail.com"
+home-page = 'https://github.com/paul-nameless/pyfswatch'
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.5"
+requires = []
+
+[tool.black]
+line-length = 79
