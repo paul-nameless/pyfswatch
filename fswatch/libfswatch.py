@@ -28,7 +28,8 @@ class fsw_cevent(ctypes.Structure):
 
 
 cevent_callback = ctypes.CFUNCTYPE(
-    None, ctypes.POINTER(fsw_cevent), ctypes.c_uint)
+    None, ctypes.POINTER(fsw_cevent), ctypes.c_uint
+)
 
 fsw_set_callback = lib.fsw_set_callback
 fsw_set_callback.restype = ctypes.c_int
