@@ -51,6 +51,10 @@ fsw_destroy_session = lib.fsw_destroy_session
 fsw_destroy_session.restype = ctypes.c_int
 fsw_destroy_session.argtypes = [ctypes.c_void_p]
 
+fsw_set_recursive = lib.fsw_set_recursive
+fsw_set_recursive.restype = ctypes.c_int
+fsw_set_recursive.argtypes = [ctypes.c_void_p, ctypes.c_bool]
+
 
 def _not_implemented():
     raise NotImplementedError()
@@ -59,7 +63,6 @@ def _not_implemented():
 fsw_add_property = _not_implemented
 fsw_set_allow_overflow = _not_implemented
 fsw_set_latency = _not_implemented
-fsw_set_recursive = _not_implemented
 fsw_set_directory_only = _not_implemented
 fsw_set_follow_symlinks = _not_implemented
 fsw_add_event_type_filter = _not_implemented
@@ -83,6 +86,8 @@ def main():
     assert fsw_add_path(handle, b"/tmp/test/") == 0
     _callback = cevent_callback(_callback)
     assert fsw_set_callback(handle, _callback) == 0
+    assert fsw_set_recursive(handle, True) == 0
+
     # fsw_start_monitor(handle)
     thread = Thread(target=fsw_start_monitor, args=(handle,), daemon=True)
 
