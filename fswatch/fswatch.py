@@ -24,6 +24,9 @@ class Monitor:
     def add_path(self, path: str):
         assert libfswatch.fsw_add_path(self.handle, path.encode()) == 0
 
+    def set_recursive(self):
+        assert libfswatch.fsw_set_recursive(self.handle, True) == 0
+
     def set_callback(self, callback):
         self._callback = callback
         self.cevent_callback = libfswatch.cevent_callback(
@@ -54,6 +57,7 @@ class Monitor:
 
 def main():
     monitor = Monitor()
+    monitor.set_recursive()
     monitor.add_path("/tmp/test/")
 
     def callback(path, evt_time, flags, flags_num, event_num):
