@@ -1,5 +1,6 @@
-from threading import Thread
 import signal
+from threading import Thread
+
 from fswatch import libfswatch
 
 
@@ -24,8 +25,8 @@ class Monitor:
     def add_path(self, path: str):
         assert libfswatch.fsw_add_path(self.handle, path.encode()) == 0
 
-    def set_recursive(self):
-        assert libfswatch.fsw_set_recursive(self.handle, True) == 0
+    def set_recursive(self, is_recursive=True):
+        assert libfswatch.fsw_set_recursive(self.handle, is_recursive) == 0
 
     def set_callback(self, callback):
         self._callback = callback
