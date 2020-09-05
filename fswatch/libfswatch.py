@@ -43,7 +43,7 @@ fsw_is_running = lib.fsw_is_running
 fsw_is_running.restype = ctypes.c_bool
 fsw_is_running.argtypes = [ctypes.c_void_p]
 
-fsw_stop_monitor = lib.fsw_start_monitor
+fsw_stop_monitor = lib.fsw_stop_monitor
 fsw_stop_monitor.restype = ctypes.c_int
 fsw_stop_monitor.argtypes = [ctypes.c_void_p]
 
