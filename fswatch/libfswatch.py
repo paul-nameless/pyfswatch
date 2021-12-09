@@ -22,7 +22,7 @@ class fsw_cevent(ctypes.Structure):
     _fields_ = [
         ("path", ctypes.c_char_p),
         ("evt_time", ctypes.c_int),
-        ("flags", ctypes.c_void_p),
+        ("flags", ctypes.POINTER(ctypes.c_int32)),
         ("flags_num", ctypes.c_uint),
     ]
 

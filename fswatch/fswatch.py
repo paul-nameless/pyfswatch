@@ -11,16 +11,16 @@ class Monitor:
         self._callback = None
 
         def _callback_wrapper(events, event_num):
-            event = events[0]
-            self._callback(
-                event.path,
-                event.evt_time,
-                event.flags,
-                event.flags_num,
-                event_num,
-            )
+            for i in range(event_num):
+                flags_list = [events[i].flags[f_idx] for f_idx in range(events[i].flags_num)]
 
-        self._callback_wrapper = _callback_wrapper
+                self._callback(
+                    events[i].path,
+                    events[i].evt_time,
+                    flags_list,
+                )
+
+            self._callback_wrapper = _callback_wrapper
 
     def add_path(self, path: str):
         assert libfswatch.fsw_add_path(self.handle, path.encode()) == 0
@@ -61,7 +61,7 @@ def main():
     monitor.set_recursive()
     monitor.add_path("/tmp/test/")
 
-    def callback(path, evt_time, flags, flags_num, event_num):
+    def callback(path, evt_time, flags):
         print(path.decode())
 
     monitor.set_callback(callback)
